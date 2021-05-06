@@ -4,7 +4,8 @@
   "description": "бэкенд дипломной работы",
   "main": "index.js",
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "mongoose": "^5.12.7"
   },
   "devDependencies": {
     "eslint": "^7.25.0",
