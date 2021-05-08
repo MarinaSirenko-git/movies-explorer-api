@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 
+const { urlRegex, ruNameMovie, enNameMovie } = require('../utils/regex/regexPattern');
+
 const movieSchema = new mongoose.Schema({
   country: {
     type: String,
@@ -24,7 +26,7 @@ const movieSchema = new mongoose.Schema({
   image: {
     type: String,
     validate: {
-      validator: (v) => /(https?:\/\/(([\w-]+\.)+)+([\w])+((\/[a-z_0-9\-:~\\.%\\/?#[\]@!$&'\\(\\)*+,;=]+)+)?)/gi.test(v),
+      validator: (v) => urlRegex.test(v),
       message: (props) => `${props.value} — ссылка на постер фильма не валидна!`,
     },
     required: true,
@@ -32,7 +34,7 @@ const movieSchema = new mongoose.Schema({
   trailer: {
     type: String,
     validate: {
-      validator: (v) => /(https?:\/\/(([\w-]+\.)+)+([\w])+((\/[a-z_0-9\-:~\\.%\\/?#[\]@!$&'\\(\\)*+,;=]+)+)?)/gi.test(v),
+      validator: (v) => urlRegex.test(v),
       message: (props) => `${props.value} — ссылка на трейлер фильма не валидна!`,
     },
     required: true,
@@ -40,21 +42,24 @@ const movieSchema = new mongoose.Schema({
   thumbnail: {
     type: String,
     validate: {
-      validator: (v) => /(https?:\/\/(([\w-]+\.)+)+([\w])+((\/[a-z_0-9\-:~\\.%\\/?#[\]@!$&'\\(\\)*+,;=]+)+)?)/gi.test(v),
+      validator: (v) => urlRegex.test(v),
       message: (props) => `${props.value} — ссылка на миниатюрное изображение постера к фильму не валидна!`,
     },
     required: true,
   },
   owner: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'user',
     required: true,
   },
   movieId: {
+    type: String,
     required: true,
   },
   nameRU: {
     type: String,
     validate: {
-      validator: (v) => /((?<digits>\d+)|(?<punctuation>\p{P}+)|(?<roman>\bM{0,4}(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})\b)|(?<literal>[\W]+))/gi.test(v),
+      validator: (v) => ruNameMovie.test(v),
       message: (props) => `${props.value} — название фильма должно быть на русском языке!`,
     },
     required: true,
@@ -62,7 +67,7 @@ const movieSchema = new mongoose.Schema({
   nameEN: {
     type: String,
     validate: {
-      validator: (v) => /((?<digits>\d+)|(?<punctuation>\p{P}+)|(?<roman>\bM{0,4}(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})\b)|(?<literal>[\w]+))/gi.test(v),
+      validator: (v) => enNameMovie.test(v),
       message: (props) => `${props.value} — название фильма должно быть на английском языке!`,
     },
     required: true,
