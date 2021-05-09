@@ -1,11 +1,6 @@
 const jwt = require('jsonwebtoken');
-const dotenv = require('dotenv');
 
-if (process.env.NODE_ENV !== 'production') {
-  dotenv.config();
-}
-
-const { SECRET_KEY = 'super-strong-secret' } = process.env;
+const { SECRET_KEY } = require('../utils/configs/envConfig');
 
 module.exports = (req, res, next) => {
   const token = req.cookies.jwt;

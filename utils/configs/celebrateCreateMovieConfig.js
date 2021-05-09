@@ -11,7 +11,7 @@ const celebrateCreateMovieConfig = {
     image: Joi.string().required().regex(urlRegex),
     trailer: Joi.string().required().regex(urlRegex),
     thumbnail: Joi.string().required().regex(urlRegex),
-    movieId: Joi.string().required(),
+    movieId: Joi.number().required(),
     nameRU: Joi.string().required().regex(ruNameMovie),
     nameEN: Joi.string().required().regex(enNameMovie),
   }),

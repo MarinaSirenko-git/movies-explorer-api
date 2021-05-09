@@ -1,12 +1,8 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const dotenv = require('dotenv');
 const User = require('../models/user');
 
-if (process.env.NODE_ENV !== 'production') {
-  dotenv.config();
-}
-const { SECRET_KEY = 'super-strong-secret' } = process.env;
+const { SECRET_KEY } = require('../utils/configs/envConfig');
 
 const createUser = (req, res, next) => {
   const { email, password, name } = req.body;
