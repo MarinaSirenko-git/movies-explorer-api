@@ -1,6 +1,10 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
+const BadRequestError = require('../errors/bad-req-error');
+const ConflictError = require('../errors/conflict-error');
+const UnauthorizedError = require('../errors/unauth-error');
+const NotFoundError = require('../errors/not-found-error');
 
 const { SECRET_KEY } = require('../utils/configs/envConfig');
 
@@ -19,13 +23,9 @@ const createUser = (req, res, next) => {
     })
     .catch((e) => {
       if (e.name === 'ValidationError') {
-        const err = new Error('Переданы некорректные данные при создании пользователя');
-        err.statusCode = 400;
-        next(err);
+        next(new BadRequestError('Переданы некорректные данные при создании пользователя'));
       } else if (e.name === 'MongoError' && e.code === 11000) {
-        const err = new Error('Такой email уже зарегистрирован');
-        err.statusCode = 409;
-        next(err);
+        next(new ConflictError('Такой email уже зарегистрирован'));
       } else {
         next(e);
       }
@@ -48,18 +48,14 @@ const authorizeUser = (req, res, next) => {
       });
     })
     .catch(() => {
-      const err = new Error('Пользователь не авторизован');
-      err.statusCode = 401;
-      next(err);
+      next(new UnauthorizedError('Пользователь не авторизован'));
     });
 };
 
 const clearCookie = (req, res, next) => {
   const token = req.cookies.jwt;
   if (!token) {
-    const err = new Error('Jwt не найден в Cookies');
-    err.statusCode = 401;
-    next(err);
+    next(new UnauthorizedError('Jwt не найден в Cookies'));
   } else {
     res
       .status(202)
@@ -76,13 +72,9 @@ const getCurrentUser = (req, res, next) => {
   User.findById(req.user._id)
     .then((user) => {
       if (!user) {
-        const err = new Error('Пользователь не найден');
-        err.statusCode = 404;
-        next(err);
+        next(new NotFoundError('Пользователь не найден'));
       } else if (!token) {
-        const err = new Error('Jwt не найден в Cookies');
-        err.statusCode = 401;
-        next(err);
+        next(new UnauthorizedError('Jwt не найден в Cookies'));
       } else {
         res.send(user);
       }
@@ -105,17 +97,15 @@ const updateUserProfile = (req, res, next) => {
   )
     .then((user) => {
       if (!user) {
-        const err = new Error('Пользователь не найден');
-        err.statusCode = 404;
-        next(err);
+        next(new NotFoundError('Пользователь не найден'));
       }
       res.send(user);
     })
     .catch((e) => {
       if (e.name === 'ValidationError') {
-        const err = new Error('Переданы некорректные данные при обновлении профиля');
-        err.statusCode = 400;
-        next(err);
+        next(new BadRequestError('Переданы некорректные данные при создании пользователя'));
+      } else if (e.name === 'MongoError' && e.code === 11000) {
+        next(new ConflictError('Такой email уже зарегистрирован'));
       } else {
         next(e);
       }

@@ -5,6 +5,7 @@ const celebrateSignupConfig = require('../utils/configs/celebrateSignupConfig');
 const celebrateSigninConfig = require('../utils/configs/celebrateSigninConfig');
 const userRouter = require('./users');
 const movieRouter = require('./movies');
+const UnauthorizedError = require('../errors/not-found-error');
 
 const { createUser, authorizeUser } = require('../controllers/users');
 
@@ -15,9 +16,7 @@ router.use('/users', userRouter);
 router.use('/movies', movieRouter);
 
 router.use('*', (req, res, next) => {
-  const err = new Error('Страница не найдена');
-  err.statusCode = 404;
-  next(err);
+  next(new UnauthorizedError('Страница не найдена'));
 });
 
 module.exports = router;

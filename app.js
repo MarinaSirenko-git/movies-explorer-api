@@ -5,7 +5,7 @@ const rateLimit = require('express-rate-limit');
 const { errors } = require('celebrate');
 const helmet = require('helmet');
 const router = require('./routes');
-const handleError = require('./errors/handleError');
+const handleError = require('./errors/handle-error');
 const corsMiddleware = require('./middlewares/cors');
 const limiterConfig = require('./utils/configs/limiterConfig');
 
