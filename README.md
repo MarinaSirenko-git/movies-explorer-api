@@ -20,5 +20,5 @@
 
 ***
 - Публичный IP-адрес сервера: 130.193.44.149
-- Домен: sirenko-movies.nomoredomains.club
+- Домен: api.sirenko-movies.nomoredomains.club
 - Задачи описанны подробно на доске в Trello https://trello.com/b/wGL2F3KG/diploma
