@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const { urlRegex, ruNameMovie, enNameMovie } = require('../utils/regex/regexPattern');
+const { urlRegex, enNameMovie } = require('../utils/regex/regexPattern');
 
 const movieSchema = new mongoose.Schema({
   country: {
@@ -25,10 +25,6 @@ const movieSchema = new mongoose.Schema({
   },
   image: {
     type: String,
-    validate: {
-      validator: (v) => urlRegex.test(v),
-      message: (props) => `${props.value} — ссылка на постер фильма не валидна!`,
-    },
     required: true,
   },
   trailer: {
@@ -41,10 +37,6 @@ const movieSchema = new mongoose.Schema({
   },
   thumbnail: {
     type: String,
-    validate: {
-      validator: (v) => urlRegex.test(v),
-      message: (props) => `${props.value} — ссылка на миниатюрное изображение постера к фильму не валидна!`,
-    },
     required: true,
   },
   owner: {
@@ -58,10 +50,6 @@ const movieSchema = new mongoose.Schema({
   },
   nameRU: {
     type: String,
-    validate: {
-      validator: (v) => ruNameMovie.test(v),
-      message: (props) => `${props.value} — название фильма должно быть на русском языке!`,
-    },
     required: true,
   },
   nameEN: {

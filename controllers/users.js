@@ -44,11 +44,11 @@ const authorizeUser = (req, res, next) => {
         secure: true,
       });
       res.send({
-        message: 'Пользователь авторизован',
+        success: 'Пользователь авторизован',
       });
     })
     .catch(() => {
-      next(new UnauthorizedError('Пользователь не авторизован'));
+      next(new UnauthorizedError('Неверное имя пользователя или пароль'));
     });
 };
 
@@ -63,7 +63,7 @@ const clearCookie = (req, res, next) => {
         sameSite: 'None',
         secure: true,
       })
-      .send({ message: 'Cookies удалены' });
+      .send({ success: 'Cookies удалены' });
   }
 };
 
