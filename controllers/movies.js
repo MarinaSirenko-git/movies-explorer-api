@@ -1,6 +1,5 @@
 const Movie = require('../models/movie');
 const BadRequestError = require('../errors/bad-req-error');
-const NotFoundError = require('../errors/not-found-error');
 const ForbiddenError = require('../errors/forbidden-error');
 
 const getMovies = (req, res, next) => {
@@ -59,7 +58,7 @@ const deleteMovieById = (req, res, next) => {
         .catch(next);
     })
     .catch(() => {
-      next(new NotFoundError('Фильм не найден'));
+      next(new BadRequestError('Фильм не найден'));
     });
 };
 
