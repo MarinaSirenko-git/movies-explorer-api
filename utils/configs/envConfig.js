@@ -14,7 +14,12 @@ function parseAllowedOrigins(raw) {
   return raw.split(',').map((s) => s.trim()).filter(Boolean);
 }
 
-const { PORT = 3001, MONGODB_URI } = process.env;
+const { 
+  PORT = 3001, 
+  MONGODB_URI, 
+  SECRET_KEY = 'super-strong-secret',
+  ALLOWED_ORIGINS: ALLOWED_ORIGINS_RAW,
+} = process.env;
 
 if (!MONGODB_URI) {
   console.error('MONGODB_URI is not defined');
