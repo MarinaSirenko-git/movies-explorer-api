@@ -1,10 +1,10 @@
 const cors = require('cors');
 const ForbiddenError = require('../errors/forbidden-error');
+const { ALLOWED_ORIGINS } = require('../utils/configs/envConfig');
 
-const whitelist = ['http://localhost:3000', 'http://sirenko-movies.nomoredomains.club', 'https://sirenko-movies.nomoredomains.club'];
 const corsOptions = {
   origin: (origin, callback) => {
-    if (whitelist.indexOf(origin) !== -1 || !origin) {
+    if (ALLOWED_ORIGINS.indexOf(origin) !== -1 || !origin) {
       callback(null, true);
     } else {
       callback(new ForbiddenError('Доступ к ресурсу запрещён'));

@@ -2,17 +2,19 @@
 const mongoose = require('mongoose');
 const app = require('./app');
 
-const { PORT, DB_CONN } = require('./utils/configs/envConfig');
+const { PORT, MONGODB_URI } = require('./utils/configs/envConfig');
 
 mongoose.set('runValidators', true);
 
-mongoose.connect(DB_CONN, {
-  useNewUrlParser: true,
-  useCreateIndex: true,
-  useFindAndModify: false,
-  useUnifiedTopology: true,
-});
+mongoose.connect(MONGODB_URI)
+  .then(() => {
+    console.log('Connected to MongoDB');
 
-app.listen(PORT, () => {
-  console.log(`App listening on port ${PORT}`);
-});
+    app.listen(PORT, () => {
+      console.log(`App listening on port ${PORT}`);
+    });
+  })
+  .catch(err => {
+    console.error('MongoDB connection error:', err);
+    process.exit(1);
+  });

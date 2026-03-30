@@ -33,6 +33,9 @@
     "lint": "npx eslint .",
     "test": "jest"
   },
+  "engines": {
+    "node": ">=18"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/MarinaSirenko-git/movies-explorer-api.git"

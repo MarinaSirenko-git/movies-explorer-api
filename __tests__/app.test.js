@@ -5,10 +5,10 @@ const User = require('../models/user');
 
 const request = supertest(app);
 
-const { DB_CONN } = require('../utils/configs/envConfig');
+const { MONGODB_URI } = require('../utils/configs/envConfig');
 
 beforeAll(() => {
-  mongoose.connect(DB_CONN,
+  mongoose.connect(MONGODB_URI,
     {
       useNewUrlParser: true,
       useCreateIndex: true,

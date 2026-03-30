@@ -2,14 +2,30 @@ const dotenv = require('dotenv');
 
 dotenv.config();
 
-const {
-  PORT = 3001,
-  DB_CONN = 'mongodb://localhost:27017/moviesdb',
-  SECRET_KEY = 'super-strong-secret',
-} = process.env;
+const DEFAULT_ALLOWED_ORIGINS = [
+  'http://localhost:3000',
+  'https://movies-explorer-frontend.pages.dev',
+];
+
+function parseAllowedOrigins(raw) {
+  if (!raw || !String(raw).trim()) {
+    return DEFAULT_ALLOWED_ORIGINS;
+  }
+  return raw.split(',').map((s) => s.trim()).filter(Boolean);
+}
+
+const { PORT = 3001, MONGODB_URI } = process.env;
+
+if (!MONGODB_URI) {
+  console.error('MONGODB_URI is not defined');
+  process.exit(1);
+}
+
+const ALLOWED_ORIGINS = parseAllowedOrigins(ALLOWED_ORIGINS_RAW);
 
 module.exports = {
   PORT,
-  DB_CONN,
+  MONGODB_URI,
   SECRET_KEY,
+  ALLOWED_ORIGINS,
 };

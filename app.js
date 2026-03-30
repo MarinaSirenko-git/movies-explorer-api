@@ -15,6 +15,10 @@ const app = express();
 
 const limiter = rateLimit(limiterConfig);
 
+app.get('/health', (req, res) => {
+  res.status(200).json({ ok: true });
+});
+
 app.use(requestLogger);
 app.use(limiter);
 app.use(helmet());
